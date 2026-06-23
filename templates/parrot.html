@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block page_title %}Parrot — Personalized Voice Cloning and Synthesis{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2 class="section-title">🦜 Parrot — Echo the Same Audio</h2>
+  <p class="muted">
+    Upload a short audio clip; we’ll return the exact content back.
+    Great for quickly checking loudness and clarity.
+  </p>
+
+  <form id="parrotForm" class="stack" onsubmit="return false;" enctype="multipart/form-data">
+    <label>Choose audio</label>
+    <input type="file" id="parrot_audio" accept="audio/*" />
+
+    <div class="actions">
+      <button class="btn primary" onclick="sendParrot()">Send</button>
+      <button class="btn ghost" type="reset" onclick="resetParrot()">Reset</button>
+    </div>
+
+    <p class="muted" style="margin-top:6px">Supported: wav, mp3, m4a, webm, ogg, flac (≤ {{ config.MAX_UPLOAD_MB }} MB)</p>
+  </form>
+
+  <div id="parrot_result" class="result">
+    <div class="muted">Result will appear here…</div>
+  </div>
+</div>
+
+<script>
+async function sendParrot(){
+  const f = document.getElementById('parrot_audio').files[0];
+  if(!f){ alert('Please choose an audio file.'); return; }
+  const fd = new FormData(); fd.append('audio', f);
+  const r = await fetch('{{ url_for("api_parrot_run") }}', { method:'POST', body: fd });
+  const j = await r.json();
+  const box = document.getElementById('parrot_result');
+  if(j.ok && j.url){
+    box.innerHTML = `<audio controls src="${j.url}"></audio>`;
+  }else{
+    box.innerHTML = `<pre>${JSON.stringify(j, null, 2)}</pre>`;
+  }
+}
+function resetParrot(){
+  document.getElementById('parrot_result').innerHTML = '<div class="muted">Result will appear here…</div>';
+}
+</script>
+{% endblock %}

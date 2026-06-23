@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block page_title %}Personalized Voice Cloning and Synthesis{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <span>VoiceClone</span>
+    </div>
+
+    <nav class="nav">
+    <a class="nav-link {% if request.path=='/' %}active{% endif %}" href="{{ url_for('home') }}">🏠 Home</a>
+    <a class="nav-link {% if request.path=='/about' %}active{% endif %}" href="{{ url_for('about') }}">ℹ️ About</a>
+    <a class="nav-link {% if request.path.startswith('/parrot') %}active{% endif %}" href="{{ url_for('page_parrot') }}">🦜 Parrot</a>
+    <a class="nav-link {% if request.path.startswith('/tts') %}active{% endif %}" href="{{ url_for('page_tts') }}">🗣️ Speak My Text</a>
+    <a class="nav-link {% if request.path.startswith('/qa') %}active{% endif %}" href="{{ url_for('page_qa') }}">❓ Ask → Answer</a>
+
+    <div class="divider"></div>
+    <div class="voice-state">
+      <div class="k">Voice Status</div>
+      {% if voice_id %}
+        <div class="v ok">SET</div>
+        <code class="voice-id">{{ voice_id }}</code>
+      {% else %}
+        <div class="v warn">NOT SET</div>
+        <small class="hint">Use “Set Voice ID” on the TTS page</small>
+      {% endif %}
+    </div>
+  </nav>
+
+
+    <footer class="side-footer">
+      <div>© 2025</div>
+      <div class="tiny">Built with Flask</div>
+    </footer>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <h1 class="project-title">
+        Personalized Voice Cloning and Synthesis : Enhancing Human Computer Interaction through Speech Replication
+      </h1>
+    </header>
+
+    <section class="content">
+      <div class="container">
+        {% block content %}{% endblock %}
+      </div>
+    </section>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

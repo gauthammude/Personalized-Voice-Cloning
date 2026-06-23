@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block page_title %}Home — Personalized Voice Cloning and Synthesis{% endblock %}
+
+{% block content %}
+<!-- Hero / Splash -->
+<div class="hero card">
+  <div class="hero-left">
+    <h2 class="hero-title">Welcome to the Demo</h2>
+    <p class="hero-desc">
+      Explore three features: <b>Parrot</b> (echo your voice), <b>Speak My Text</b> (type → speak in your voice),
+      and <b>Ask → Answer</b> (ask by voice, get a concise answer in your voice).
+    </p>
+    <div class="actions">
+      <a class="btn primary" href="{{ url_for('page_parrot') }}">Try Parrot</a>
+      <a class="btn accent"  href="{{ url_for('page_tts') }}">Speak My Text</a>
+      <a class="btn ghost"   href="{{ url_for('page_qa') }}">Ask → Answer</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="stat">
+      <div class="stat-k">Engine</div>
+      <div class="stat-v">Resemble + Groq</div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Controls</div>
+      <div class="stat-v">Emotion • Speed • Pitch</div>
+    </div>
+    <div class="stat">
+      <div class="stat-k">Storage</div>
+      <div class="stat-v">No DB • File-based</div>
+    </div>
+  </div>
+
+  <div class="hero-orb orb-1"></div>
+  <div class="hero-orb orb-2"></div>
+</div>
+
+<!-- Team Cards -->
+<div class="section-title-row">
+  <h3 class="section-title">Team — Contributions</h3>
+  <div class="line"></div>
+</div>
+
+<div class="team-grid">
+  <!-- Card 1 -->
+  <div class="person-card">
+    <div class="ring"></div>
+    <div class="person">
+      <div class="avatar" data-initials="YB"></div>
+      <div class="meta">
+        <div class="name">Y. Bhavana</div>
+        <div class="id-pill">23705A0506</div>
+      </div>
+    </div>
+    <div class="role">Frontend &amp; UX</div>
+    <ul class="points">
+      <li>Sidebar layout &amp; navigation</li>
+      <li>Color system &amp; theming</li>
+      <li>Page wiring &amp; polish</li>
+    </ul>
+  </div>
+
+  <!-- Card 2 -->
+  <div class="person-card">
+    <div class="ring"></div>
+    <div class="person">
+      <div class="avatar" data-initials="MG"></div>
+      <div class="meta">
+        <div class="name">M. Gowtham</div>
+        <div class="id-pill">22701A0554</div>
+      </div>
+    </div>
+    <div class="role">Flask &amp; Integrations</div>
+    <ul class="points">
+      <li>Routes &amp; API glue</li>
+      <li>Groq ASR / LLM</li>
+      <li>File pipeline</li>
+    </ul>
+  </div>
+
+  <!-- Card 3 -->
+  <div class="person-card">
+    <div class="ring"></div>
+    <div class="person">
+      <div class="avatar" data-initials="MB"></div>
+      <div class="meta">
+        <div class="name">M. Bharathi</div>
+        <div class="id-pill">22701A0528</div>
+      </div>
+    </div>
+    <div class="role">Voice Synthesis</div>
+    <ul class="points">
+      <li>Resemble pipeline</li>
+      <li>Emotion mapping</li>
+      <li>Output handling</li>
+    </ul>
+  </div>
+
+  <!-- Card 4 -->
+  <div class="person-card">
+    <div class="ring"></div>
+    <div class="person">
+      <div class="avatar" data-initials="KBN"></div>
+      <div class="meta">
+        <div class="name">K. Bala Narasimhulu</div>
+        <div class="id-pill">22701A0523</div>
+      </div>
+    </div>
+    <div class="role">QA &amp; Evaluation</div>
+    <ul class="points">
+      <li>Edge-cases &amp; latency checks</li>
+      <li>End-to-end testing</li>
+      <li>Audio validation</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Guide Card -->
+<div class="section-title-row">
+  <h3 class="section-title">Guide</h3>
+  <div class="line"></div>
+</div>
+
+<div class="guide-card card">
+  <div class="guide-left">
+    <div class="guide-avatar">PC</div>
+  </div>
+  <div class="guide-right">
+    <div class="guide-name">Dr. P. Changamma</div>
+    <div class="guide-role">Assistant Professor</div>
+    <p class="guide-notes">
+      Guidance on experiment design, evaluation criteria, and ethical considerations in speech replication.
+    </p>
+  </div>
+</div>
+
+<!-- How to Use -->
+<div class="card info">
+  <h3 class="section-title">How to Use</h3>
+  <ol class="steps">
+    <li>Open <b>Speak My Text</b> and set your <b>Resemble voice UUID</b> (if not set already).</li>
+    <li>Pick an <b>emotion</b>, adjust <b>speed</b> and <b>pitch</b> as needed.</li>
+    <li>Try <b>Ask → Answer</b> to record a question; it will be answered and spoken back in your voice.</li>
+    <li>Use <b>Parrot</b> to quickly validate audio clarity and loudness consistency.</li>
+  </ol>
+</div>
+{% endblock %}

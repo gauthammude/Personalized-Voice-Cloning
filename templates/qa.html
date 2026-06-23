@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block page_title %}Ask → Answer — Personalized Voice Cloning and Synthesis{% endblock %}
+
+{% block content %}
+<div class="card">
+  <h2 class="section-title">❓ Ask by Voice → Answer in Your Voice</h2>
+  <p class="muted">
+    Upload a recorded question (e.g., “Who is the Prime Minister of India?”). We’ll transcribe (Whisper via Groq),
+    answer briefly (Groq LLM), and speak back in your cloned voice.
+  </p>
+
+  <form id="qaForm" class="stack" onsubmit="return false;" enctype="multipart/form-data">
+    <div class="grid two">
+      <div>
+        <label>Choose audio</label>
+        <input type="file" id="qa_audio" accept="audio/*" />
+        <p class="muted" style="margin-top:6px">Tip: clear speech, quiet room, 3–10s works great.</p>
+      </div>
+      <div>
+        <label>Emotion</label>
+        <select id="qa_emotion">
+          <option>neutral</option><option>happy</option><option>sad</option>
+          <option>excited</option><option>angry</option>
+        </select>
+        <p class="muted" style="margin-top:6px">Make sure your voice UUID is set on the <b>Speak My Text</b> page.</p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" onclick="runQA()">Ask</button>
+      <button class="btn ghost" type="reset" onclick="resetQA()">Reset</button>
+    </div>
+  </form>
+</div>
+
+<div class="card">
+  <h3 class="section-title">Result</h3>
+  <div id="qa_result" class="result">
+    <div class="muted">Transcription, answer, and audio will appear here…</div>
+  </div>
+</div>
+
+<script>
+async function runQA(){
+  const f = document.getElementById('qa_audio').files[0];
+  if(!f){ alert('Please choose an audio file.'); return; }
+  const emo = document.getElementById('qa_emotion').value;
+
+  const fd = new FormData();
+  fd.append('audio', f);
+  fd.append('emotion', emo);
+
+  const r = await fetch('{{ url_for("api_qa_run") }}', { method:'POST', body: fd });
+  const j = await r.json();
+
+  const box = document.getElementById('qa_result');
+  if(j.ok){
+    const esc = s => (s||'').replace(/[<>&]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));
+    let html = `
+        <div class="grid two" style="align-items:start">
+            <div>
+            <h4 style="margin:0 0 6px">Question</h4>
+            <pre class="pre-qa">${esc(j.question)}</pre>
+            </div>
+            <div>
+            <h4 style="margin:0 0 6px">Answer</h4>
+            <pre class="pre-qa">${esc(j.answer)}</pre>
+            </div>
+        </div>`;
+
+    if(j.url) html += `<div class="actions" style="margin-top:12px"><audio controls src="${j.url}"></audio></div>`;
+    box.innerHTML = html;
+  } else {
+    box.innerHTML = `<pre>${JSON.stringify(j, null, 2)}</pre>`;
+  }
+}
+
+function resetQA(){
+  document.getElementById('qa_result').innerHTML = '<div class="muted">Transcription, answer, and audio will appear here…</div>';
+}
+</script>
+{% endblock %}
